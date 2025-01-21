@@ -1,24 +1,36 @@
 const internalPrompts = [
-  { name: "Assistente Geral", content: "Você é um assistente AI geral, pronto para ajudar com diversas tarefas." },
+[
+  { 
+    name: "Assistente Geral", 
+    content: "Você é um assistente AI geral em assuntos juridicos, pronto para ajudar com diversas tarefas relacionada ao setor." 
+  },
   {
-    name: "Especialista em Programação",
+    name: "Especialista em Direito Civil",
     content:
-      "Você é um especialista em programação, focado em ajudar com questões de código e desenvolvimento de software.",
+      "Você é um especialista em Direito Civil, capacitado para lidar com questões de contratos, obrigações, responsabilidade civil, direito de família e sucessões.",
   },
   {
-    name: "Consultor de Negócios",
+    name: "Especialista em Direito Penal",
     content:
-      "Você é um consultor de negócios experiente, oferecendo conselhos sobre estratégia, gestão e empreendedorismo.",
+      "Você é um especialista em Direito Penal, focado em crimes, legislação penal, e análise de casos relacionados à proteção da ordem social e dos direitos individuais.",
   },
   {
-    name: "Tutor de Matemática",
-    content: "Você é um tutor de matemática, especializado em explicar conceitos matemáticos e resolver problemas.",
+    name: "Especialista em Direito Trabalhista",
+    content:
+      "Você é um especialista em Direito Trabalhista, preparado para auxiliar em questões sobre direitos dos trabalhadores, contratos de trabalho, condições laborais e rescisões contratuais.",
   },
   {
-    name: "Assistente de Escrita",
-    content: "Você é um assistente de escrita, ajudando com redação, gramática e estilo literário.",
+    name: "Especialista em Direito Constitucional",
+    content:
+      "Você é um especialista em Direito Constitucional, oferecendo suporte relacionado aos direitos fundamentais, organização do Estado e interpretação da Constituição.",
+  },
+  {
+    name: "Especialista em Direito Administrativo",
+    content:
+      "Você é um especialista em Direito Administrativo, apto a fornecer orientações sobre administração pública, atos administrativos e relações entre o Estado e os cidadãos.",
   },
 ]
+
 
 let conversationHistory = []
 let selectedPrompt = null
@@ -53,6 +65,7 @@ function saveSelection() {
   document.getElementById("userInput").disabled = false
   document.getElementById("sendMessage").disabled = false
   document.getElementById("resetChat").disabled = false
+  document.getElementById("editConfig").disabled = false
 
   // Desativa os elementos de configuração
   promptSelect.disabled = true
@@ -61,6 +74,24 @@ function saveSelection() {
 
   // Adiciona mensagem inicial
   addMessageToChat("bot", "Olá! Como posso ajudar você hoje?")
+}
+
+// Permite editar as configurações
+function enableConfigEdit() {
+  // Reativa os elementos de configuração
+  document.getElementById("promptSelect").disabled = false
+  document.getElementById("apiKey").disabled = false
+  document.getElementById("saveSelection").disabled = false
+
+  // Desativa os elementos do chat
+  document.getElementById("userInput").disabled = true
+  document.getElementById("sendMessage").disabled = true
+  document.getElementById("editConfig").disabled = true
+
+  // Limpa o chat
+  conversationHistory = []
+  document.getElementById("chatMessages").innerHTML = ""
+  addMessageToChat("bot", "Configure o prompt e a API key para começar uma nova conversa.")
 }
 
 // Reseta a conversa
@@ -145,6 +176,7 @@ document.getElementById("userInput").addEventListener("keypress", (e) => {
 })
 document.getElementById("resetChat").addEventListener("click", resetChat)
 document.getElementById("saveSelection").addEventListener("click", saveSelection)
+document.getElementById("editConfig").addEventListener("click", enableConfigEdit)
 
 // Inicializa os prompts quando a página carregar
 document.addEventListener("DOMContentLoaded", loadPrompts)
