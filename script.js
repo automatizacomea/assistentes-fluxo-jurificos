@@ -20,7 +20,9 @@ const internalPrompts = [
   },
 ]
 
-const conversationHistory = []
+let conversationHistory = []
+let selectedPrompt = null
+let isConfigured = false
 
 // Carrega os prompts
 function loadPrompts() {
@@ -34,22 +36,53 @@ function loadPrompts() {
   })
 }
 
+// Salva a seleção e ativa o chat
+function saveSelection() {
+  const promptSelect = document.getElementById("promptSelect")
+  const apiKey = document.getElementById("apiKey").value
+
+  if (!promptSelect.value || !apiKey) {
+    alert("Por favor, selecione um prompt e insira a chave da API antes de continuar.")
+    return
+  }
+
+  selectedPrompt = internalPrompts[promptSelect.value]
+  isConfigured = true
+
+  // Ativa os elementos do chat
+  document.getElementById("userInput").disabled = false
+  document.getElementById("sendMessage").disabled = false
+  document.getElementById("resetChat").disabled = false
+
+  // Desativa os elementos de configuração
+  promptSelect.disabled = true
+  document.getElementById("apiKey").disabled = true
+  document.getElementById("saveSelection").disabled = true
+
+  // Adiciona mensagem inicial
+  addMessageToChat("bot", "Olá! Como posso ajudar você hoje?")
+}
+
+// Reseta a conversa
+function resetChat() {
+  conversationHistory = []
+  document.getElementById("chatMessages").innerHTML = ""
+  addMessageToChat("bot", "Conversa resetada. Como posso ajudar?")
+}
+
 // Envia mensagem para o bot
 async function sendMessage() {
+  if (!isConfigured) {
+    alert("Por favor, salve a seleção do prompt e API key primeiro.")
+    return
+  }
+
   const userInput = document.getElementById("userInput")
   const message = userInput.value.trim()
   if (!message) return
 
   addMessageToChat("user", message)
   userInput.value = ""
-
-  const selectedPromptIndex = document.getElementById("promptSelect").value
-  if (!selectedPromptIndex) {
-    addMessageToChat("bot", "Por favor, selecione um prompt antes de iniciar a conversa.")
-    return
-  }
-
-  const selectedPrompt = internalPrompts[selectedPromptIndex]
 
   conversationHistory.push({
     role: "user",
@@ -110,6 +143,8 @@ document.getElementById("userInput").addEventListener("keypress", (e) => {
     sendMessage()
   }
 })
+document.getElementById("resetChat").addEventListener("click", resetChat)
+document.getElementById("saveSelection").addEventListener("click", saveSelection)
 
-// Carrega os prompts quando a página é carregada
+// Inicializa os prompts quando a página carregar
 document.addEventListener("DOMContentLoaded", loadPrompts)
