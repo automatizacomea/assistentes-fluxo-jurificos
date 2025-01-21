@@ -1,8 +1,30 @@
+const internalPrompts = [
+  { name: "Assistente Geral", content: "Você é um assistente AI geral, pronto para ajudar com diversas tarefas." },
+  {
+    name: "Especialista em Programação",
+    content:
+      "Você é um especialista em programação, focado em ajudar com questões de código e desenvolvimento de software.",
+  },
+  {
+    name: "Consultor de Negócios",
+    content:
+      "Você é um consultor de negócios experiente, oferecendo conselhos sobre estratégia, gestão e empreendedorismo.",
+  },
+  {
+    name: "Tutor de Matemática",
+    content: "Você é um tutor de matemática, especializado em explicar conceitos matemáticos e resolver problemas.",
+  },
+  {
+    name: "Assistente de Escrita",
+    content: "Você é um assistente de escrita, ajudando com redação, gramática e estilo literário.",
+  },
+]
+
 let currentConfig = null
 let conversationHistory = []
 let knowledgeBases = []
-let prompts = []
-const OPENAI_API_KEY = "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" // Substitua pela sua chave real da API OpenAI
+//let prompts = []
+const OPENAI_API_KEY = "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" // Substitua pela sua chave real da API OpenAI
 
 // Lida com o carregamento de arquivos
 document.getElementById("knowledgeFile").addEventListener("change", async (e) => {
@@ -184,11 +206,12 @@ async function sendMessage() {
   const message = userInput.value.trim()
   if (!message) return
 
-  // Adiciona mensagem do usuário ao chat
   addMessageToChat("user", message)
   userInput.value = ""
 
-  // Prepara o histórico da conversa
+  const selectedPromptIndex = document.getElementById("promptSelect").value
+  const selectedPrompt = internalPrompts[selectedPromptIndex]
+
   conversationHistory.push({
     role: "user",
     content: message,
@@ -199,19 +222,19 @@ async function sendMessage() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
+        Authorization: `Bearer ${document.getElementById("apiKey").value}`,
       },
       body: JSON.stringify({
-        model: currentConfig.model,
+        model: "gpt-4o-mini-2024-07-18",
         messages: [
           {
             role: "system",
-            content: `${currentConfig.systemPrompt}\n\nBases de Conhecimento:\n${currentConfig.knowledgeBases.map((kb) => `${kb.title}:\n${kb.content}`).join("\n\n")}`,
+            content: selectedPrompt ? selectedPrompt.content : "Você é um assistente AI útil.",
           },
           ...conversationHistory,
         ],
-        temperature: currentConfig.temperature,
-        max_tokens: currentConfig.maxTokens,
+        temperature: 0.7,
+        max_tokens: 150,
       }),
     })
 
@@ -286,21 +309,6 @@ function resetChat() {
   addMessageToChat("bot", "A conversa foi resetada. Como posso ajudar?")
 }
 
-// Cria um novo bot
-function createNewBot() {
-  document.getElementById("configName").value = ""
-  // document.getElementById('apiKey').value = '';
-  document.getElementById("systemPrompt").value = ""
-  document.getElementById("knowledgeBaseTitle").value = ""
-  document.getElementById("knowledgeText").value = ""
-  knowledgeBases = []
-  updateKnowledgeBaseList()
-  currentConfig = null
-  document.getElementById("sendMessage").disabled = true
-  conversationHistory = []
-  document.getElementById("chatMessages").innerHTML = ""
-}
-
 // Função para baixar configurações
 function downloadConfig(config) {
   const dataStr = JSON.stringify(config, null, 2)
@@ -315,28 +323,14 @@ function downloadConfig(config) {
 
 // Carrega os prompts
 function loadPrompts() {
-  prompts = JSON.parse(localStorage.getItem("prompts") || "[]")
   const promptSelect = document.getElementById("promptSelect")
   promptSelect.innerHTML = '<option value="">Selecione um prompt</option>'
-  prompts.forEach((prompt, index) => {
+  internalPrompts.forEach((prompt, index) => {
     const option = document.createElement("option")
     option.value = index
     option.textContent = prompt.name
     promptSelect.appendChild(option)
   })
-}
-
-// Gerencia os prompts
-function managePrompts() {
-  const promptName = prompt("Digite o nome do novo prompt:")
-  if (promptName) {
-    const promptContent = prompt("Digite o conteúdo do prompt:")
-    if (promptContent) {
-      prompts.push({ name: promptName, content: promptContent })
-      localStorage.setItem("prompts", JSON.stringify(prompts))
-      loadPrompts()
-    }
-  }
 }
 
 // Event listeners
@@ -347,15 +341,19 @@ document.getElementById("userInput").addEventListener("keypress", (e) => {
   }
 })
 document.getElementById("resetChat").addEventListener("click", resetChat)
-document.getElementById("createNewBot").addEventListener("click", createNewBot)
-document.getElementById("managePrompts").addEventListener("click", managePrompts)
+//document.getElementById("createNewBot").addEventListener("click", createNewBot)
+//document.getElementById("managePrompts").addEventListener("click", managePrompts)
 document.getElementById("promptSelect").addEventListener("change", function () {
-  const selectedPrompt = prompts[this.value]
+  const selectedPrompt = internalPrompts[this.value]
   if (selectedPrompt) {
     document.getElementById("systemPrompt").value = selectedPrompt.content
   }
 })
 
+document.addEventListener("DOMContentLoaded", () => {
+  loadPrompts()
+})
+
 // Carrega configurações salvas ao iniciar
 loadSavedConfigs()
-loadPrompts()
+//loadPrompts()
