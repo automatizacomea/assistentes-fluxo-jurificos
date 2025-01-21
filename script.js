@@ -2,7 +2,7 @@ let currentConfig = null
 let conversationHistory = []
 let knowledgeBases = []
 let prompts = []
-const OPENAI_API_KEY = "sua_chave_api_aqui" // Substitua pela sua chave real da API OpenAI
+const OPENAI_API_KEY = "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" // Substitua pela sua chave real da API OpenAI
 
 // Lida com o carregamento de arquivos
 document.getElementById("knowledgeFile").addEventListener("change", async (e) => {
