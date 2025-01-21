@@ -6,6 +6,7 @@
     <title>Assistentes Fluxo Juridicos</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://unpkg.com/lucide-icons/dist/umd/lucide.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/marked/lib/marked.min.css">
 </head>
 <body>
     <div class="container">
@@ -39,7 +40,10 @@
                 </div>
             </div>
 
-            <button id="saveSelection" class="save-button">Salvar Seleção</button>
+            <div class="button-group">
+                <button id="saveSelection" class="save-button">Salvar Seleção</button>
+                <button id="changePrompt" class="change-button" disabled>Trocar Prompt</button>
+            </div>
         </div>
 
         <div class="chat-section">
@@ -67,6 +71,7 @@
     </div>
 
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
