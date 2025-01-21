@@ -11,29 +11,17 @@ body {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
   background: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
 }
 
-@media (max-width: 768px) {
-  .container {
-    grid-template-columns: 1fr;
-  }
-}
-
-h1,
-h2,
-h3 {
+h1 {
   color: #333;
   margin-bottom: 20px;
-  grid-column: 1 / -1;
   text-align: center;
 }
 
@@ -49,49 +37,12 @@ label {
 }
 
 input[type="text"],
-textarea {
+input[type="password"],
+select {
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
-}
-
-textarea {
-  height: 100px;
-  resize: vertical;
-}
-
-button {
-  background: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  width: 100%;
-}
-
-button:hover {
-  background: #0056b3;
-}
-
-button:disabled {
-  background: #cccccc;
-  cursor: not-allowed;
-}
-
-.preview {
-  padding: 15px;
-  background: #f8f9fa;
-  border-radius: 4px;
-  margin-top: 20px;
-}
-
-.error {
-  color: red;
-  margin-top: 5px;
   font-size: 14px;
 }
 
@@ -101,6 +52,7 @@ button:disabled {
   height: 400px;
   display: flex;
   flex-direction: column;
+  margin-top: 20px;
 }
 
 .chat-messages {
@@ -137,85 +89,20 @@ button:disabled {
 .chat-input input {
   flex-grow: 1;
   margin-right: 10px;
-}
-
-.chat-input button {
-  width: auto;
-}
-
-.knowledge-base {
-  margin-top: 20px;
-  padding: 10px;
-  background: #f8f9fa;
-  border-radius: 4px;
-}
-
-.knowledge-base textarea {
-  width: 100%;
-  height: 150px;
-  margin-top: 10px;
-}
-
-.file-input {
-  margin-top: 10px;
-}
-
-.chat-controls {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.chat-controls button {
-  width: auto;
-}
-
-.knowledge-base-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-.knowledge-base-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  margin-bottom: 5px;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.knowledge-base-item button {
-  width: auto;
-  padding: 5px 10px;
-  font-size: 12px;
-}
-
-.knowledge-base-title {
-  font-weight: bold;
-  margin-right: 10px;
-}
-
-#promptSelect {
-  width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
-  margin-bottom: 15px;
 }
 
-.create-new-bot,
-#managePrompts,
-.saved-configs,
-.saved-config-item,
-.config-name,
-.delete-btn,
-.update-btn,
-.confirm-dialog,
-.dialog-overlay,
-.dialog-buttons {
-  display: none;
+.chat-input button {
+  background: #007bff;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
+.chat-input button:hover {
+  background: #0056b3;
+}
