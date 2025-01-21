@@ -1,9 +1,5 @@
 const internalPrompts = [
-[
-  { 
-    name: "Assistente Geral", 
-    content: "Você é um assistente AI geral em assuntos juridicos, pronto para ajudar com diversas tarefas relacionada ao setor." 
-  },
+  { name: "Assistente Geral Juridica", content: "Você é um assistente AI geral do setor Juridico, pronto para ajudar com diversas tarefas relacionadas ao setor." },
   {
     name: "Especialista em Direito Civil",
     content:
@@ -16,21 +12,13 @@ const internalPrompts = [
   },
   {
     name: "Especialista em Direito Trabalhista",
-    content:
-      "Você é um especialista em Direito Trabalhista, preparado para auxiliar em questões sobre direitos dos trabalhadores, contratos de trabalho, condições laborais e rescisões contratuais.",
+    content: "Você é um especialista em Direito Trabalhista, preparado para auxiliar em questões sobre direitos dos trabalhadores, contratos de trabalho, condições laborais e rescisões contratuais.",
   },
   {
     name: "Especialista em Direito Constitucional",
-    content:
-      "Você é um especialista em Direito Constitucional, oferecendo suporte relacionado aos direitos fundamentais, organização do Estado e interpretação da Constituição.",
-  },
-  {
-    name: "Especialista em Direito Administrativo",
-    content:
-      "Você é um especialista em Direito Administrativo, apto a fornecer orientações sobre administração pública, atos administrativos e relações entre o Estado e os cidadãos.",
+    content: "Você é um especialista em Direito Constitucional, oferecendo suporte relacionado aos direitos fundamentais, organização do Estado e interpretação da Constituição.",
   },
 ]
-
 
 let conversationHistory = []
 let selectedPrompt = null
@@ -65,7 +53,6 @@ function saveSelection() {
   document.getElementById("userInput").disabled = false
   document.getElementById("sendMessage").disabled = false
   document.getElementById("resetChat").disabled = false
-  document.getElementById("editConfig").disabled = false
 
   // Desativa os elementos de configuração
   promptSelect.disabled = true
@@ -74,24 +61,6 @@ function saveSelection() {
 
   // Adiciona mensagem inicial
   addMessageToChat("bot", "Olá! Como posso ajudar você hoje?")
-}
-
-// Permite editar as configurações
-function enableConfigEdit() {
-  // Reativa os elementos de configuração
-  document.getElementById("promptSelect").disabled = false
-  document.getElementById("apiKey").disabled = false
-  document.getElementById("saveSelection").disabled = false
-
-  // Desativa os elementos do chat
-  document.getElementById("userInput").disabled = true
-  document.getElementById("sendMessage").disabled = true
-  document.getElementById("editConfig").disabled = true
-
-  // Limpa o chat
-  conversationHistory = []
-  document.getElementById("chatMessages").innerHTML = ""
-  addMessageToChat("bot", "Configure o prompt e a API key para começar uma nova conversa.")
 }
 
 // Reseta a conversa
@@ -176,7 +145,6 @@ document.getElementById("userInput").addEventListener("keypress", (e) => {
 })
 document.getElementById("resetChat").addEventListener("click", resetChat)
 document.getElementById("saveSelection").addEventListener("click", saveSelection)
-document.getElementById("editConfig").addEventListener("click", enableConfigEdit)
 
 // Inicializa os prompts quando a página carregar
 document.addEventListener("DOMContentLoaded", loadPrompts)
