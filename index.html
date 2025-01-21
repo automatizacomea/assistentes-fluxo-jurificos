@@ -12,10 +12,6 @@
         
         <div class="config-section">
             <h2>Configurações do Bot</h2>
-            <div class="create-new-bot">
-                <button id="createNewBot">Criar Novo Bot</button>
-                <button id="managePrompts">Gerenciar Prompts</button>
-            </div>
             <form id="botForm">
                 <div class="form-group">
                     <label for="configName">Nome da Configuração:</label>
@@ -23,20 +19,17 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="apiKey">Chave da API OpenAI:</label>
-                    <input type="text" id="apiKey" required placeholder="sk-...">
-                </div>
-
-                <div class="form-group">
-                    <label for="systemPrompt">Prompt do Sistema:</label>
-                    <textarea id="systemPrompt" placeholder="Defina o comportamento do seu bot..."></textarea>
-                </div>
-                <div class="form-group">
                     <label for="promptSelect">Selecione um prompt:</label>
                     <select id="promptSelect">
                         <option value="">Selecione um prompt</option>
                     </select>
                 </div>
+
+                <div class="form-group">
+                    <label for="apiKey">Chave da API OpenAI:</label>
+                    <input type="password" id="apiKey" required placeholder="sk-...">
+                </div>
+
 
                 <div class="knowledge-base">
                     <h3>Base de Conhecimento</h3>
