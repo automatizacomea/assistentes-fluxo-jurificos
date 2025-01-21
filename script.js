@@ -1,9 +1,9 @@
 const internalPrompts = [
-  { name: "Assistente Jurídico Geral", content: "Você é um assistente jurídico geral, pronto para ajudar com questões legais diversas." },
-  { name: "Especialista em Direito Civil", content: "Você é um especialista em direito civil, focado em questões contratuais, familiares e sucessórias." },
-  { name: "Consultor Trabalhista", content: "Você é um consultor especializado em direito do trabalho, oferecendo orientações sobre questões trabalhistas." },
-  { name: "Especialista Tributário", content: "Você é um especialista em direito tributário, auxiliando em questões fiscais e tributárias." },
-  { name: "Assistente Processual", content: "Você é um assistente especializado em direito processual, ajudando com prazos e procedimentos." },
+  { name: "Assistente Jurídico Geral", content: "Você é um assistente jurídico geral, pronto para ajudar com questões legais diversas. Limite suas respostas a 200 caracteres e use markdown para formatação." },
+  { name: "Especialista em Direito Civil", content: "Você é um especialista em direito civil, focado em questões contratuais, familiares e sucessórias. Limite suas respostas a 200 caracteres e use markdown para formatação." },
+  { name: "Consultor Trabalhista", content: "Você é um consultor especializado em direito do trabalho, oferecendo orientações sobre questões trabalhistas. Limite suas respostas a 200 caracteres e use markdown para formatação." },
+  { name: "Especialista Tributário", content: "Você é um especialista em direito tributário, auxiliando em questões fiscais e tributárias. Limite suas respostas a 200 caracteres e use markdown para formatação." },
+  { name: "Assistente Processual", content: "Você é um assistente especializado em direito processual, ajudando com prazos e procedimentos. Limite suas respostas a 200 caracteres e use markdown para formatação." },
 ];
 
 let conversationHistory = [];
@@ -42,21 +42,32 @@ function saveSelection() {
   document.getElementById("userInput").disabled = false;
   document.getElementById("sendMessage").disabled = false;
   document.getElementById("resetChat").disabled = false;
+  document.getElementById("changePrompt").disabled = false;
 
-  // Disable configuration elements
-  promptSelect.disabled = true;
+  // Disable only API key input and save button
   document.getElementById("apiKey").disabled = true;
   document.getElementById("saveSelection").disabled = true;
 
   // Add initial message
-  addMessageToChat("bot", "Olá! Como posso ajudar você hoje com suas questões jurídicas?");
+  addMessageToChat("bot", "### Bem-vindo! 👋\nComo posso ajudar você hoje com suas questões jurídicas?");
+}
+
+// Change prompt function
+function changePrompt() {
+  const promptSelect = document.getElementById("promptSelect");
+  selectedPrompt = internalPrompts[promptSelect.value];
+  
+  // Reset chat with new prompt
+  conversationHistory = [];
+  document.getElementById("chatMessages").innerHTML = "";
+  addMessageToChat("bot", `### Prompt Alterado\nAgora você está conversando com o *${selectedPrompt.name}*. Como posso ajudar?`);
 }
 
 // Reset chat
 function resetChat() {
   conversationHistory = [];
   document.getElementById("chatMessages").innerHTML = "";
-  addMessageToChat("bot", "Conversa resetada. Como posso ajudar com suas questões jurídicas?");
+  addMessageToChat("bot", "### Chat Resetado\nComo posso ajudar com suas questões jurídicas?");
 }
 
 // Send message to bot
@@ -111,7 +122,7 @@ async function sendMessage() {
     });
     addMessageToChat("bot", botResponse);
   } catch (error) {
-    addMessageToChat("bot", `Erro: ${error.message}`);
+    addMessageToChat("bot", `### Erro ❌\n${error.message}`);
   }
 }
 
@@ -123,7 +134,7 @@ function addMessageToChat(role, content) {
   
   const messageContent = document.createElement("div");
   messageContent.className = "message-content";
-  messageContent.textContent = content;
+  messageContent.innerHTML = marked.parse(content);
   
   messageDiv.appendChild(messageContent);
   chatMessages.appendChild(messageDiv);
@@ -139,6 +150,12 @@ document.getElementById("userInput").addEventListener("keypress", (e) => {
 });
 document.getElementById("resetChat").addEventListener("click", resetChat);
 document.getElementById("saveSelection").addEventListener("click", saveSelection);
+document.getElementById("changePrompt").addEventListener("click", changePrompt);
+document.getElementById("promptSelect").addEventListener("change", function() {
+  if (isConfigured) {
+    changePrompt();
+  }
+});
 
 // Initialize prompts when page loads
 document.addEventListener("DOMContentLoaded", loadPrompts);
