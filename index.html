@@ -22,14 +22,19 @@
                 <label for="apiKey">Chave da API OpenAI:</label>
                 <input type="password" id="apiKey" required placeholder="sk-...">
             </div>
+
+            <button id="saveSelection" class="save-button">Salvar Seleção</button>
         </div>
 
         <div class="chat-section">
+            <div class="chat-controls">
+                <button id="resetChat" disabled>Resetar Conversa</button>
+            </div>
             <div class="chat-container">
                 <div class="chat-messages" id="chatMessages"></div>
                 <div class="chat-input">
-                    <input type="text" id="userInput" placeholder="Digite sua mensagem...">
-                    <button id="sendMessage">Enviar</button>
+                    <input type="text" id="userInput" placeholder="Digite sua mensagem..." disabled>
+                    <button id="sendMessage" disabled>Enviar</button>
                 </div>
             </div>
         </div>
