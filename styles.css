@@ -29,6 +29,13 @@ body {
 .container {
   max-width: 64rem;
   margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 0.5rem;
+  }
 }
 
 .header {
@@ -38,14 +45,14 @@ body {
 
 .header h1 {
   color: var(--white);
-  font-size: 2.25rem;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
   font-weight: bold;
   margin-bottom: 0.5rem;
 }
 
 .header p {
   color: var(--blue-200);
-  font-size: 0.875rem;
+  font-size: clamp(0.875rem, 3vw, 1rem);
 }
 
 .config-section {
@@ -99,7 +106,19 @@ select {
   background-color: var(--white);
 }
 
-.save-button {
+.button-group {
+  display: grid;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .button-group {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.save-button,
+.change-button {
   width: 100%;
   padding: 0.625rem 1rem;
   background-color: var(--blue-500);
@@ -111,8 +130,17 @@ select {
   transition: background-color 0.2s;
 }
 
-.save-button:hover {
+.save-button:hover,
+.change-button:hover {
   background-color: var(--blue-600);
+}
+
+.change-button {
+  background-color: var(--primary-color);
+}
+
+.change-button:hover {
+  background-color: var(--primary-light);
 }
 
 .chat-section {
@@ -158,10 +186,11 @@ select {
 .chat-container {
   display: flex;
   flex-direction: column;
+  height: clamp(300px, 60vh, 600px);
 }
 
 .chat-messages {
-  height: 400px;
+  flex: 1;
   overflow-y: auto;
   padding: 1rem;
   background-color: var(--gray-50);
@@ -169,7 +198,13 @@ select {
 
 .message {
   margin-bottom: 1rem;
-  max-width: 80%;
+  max-width: 85%;
+}
+
+@media (min-width: 640px) {
+  .message {
+    max-width: 70%;
+  }
 }
 
 .message.bot {
@@ -194,6 +229,27 @@ select {
 .message.user .message-content {
   background-color: var(--gray-100);
   color: var(--primary-color);
+}
+
+.message-content pre {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  overflow-x: auto;
+}
+
+.message-content code {
+  font-family: monospace;
+}
+
+.message-content p {
+  margin-bottom: 0.5rem;
+}
+
+.message-content ul,
+.message-content ol {
+  margin-left: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .chat-input {
