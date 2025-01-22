@@ -106,7 +106,7 @@ Caso seja feriado, sábado, domingo ou fora do horário comercial:
 ## Reforço da Privacidade e Redes Sociais ##
 "Para complementar, aproveito para convidá-lo a conhecer mais sobre o nosso trabalho e novidades nas nossas redes sociais
 Estamos à disposição para te ajudar sempre que precisar! 😊 Ah, e não se preocupe, pois todos os seus dados pessoais serão protegidos e usados apenas para fins processuais e de atendimento"
-" },
+" }
 ];
 
 let conversationHistory = [];
